@@ -26,8 +26,7 @@ class App extends Component {
   }
   
   render(){
-    console.log(this.state.loading)
-    const isLoad = (this.state.loading) ? <h1>PARTY TIME</h1> : <AppContent authUser={this.state.authUser} />
+    const isLoad = (this.state.loading) ?  <Spinny /> : <AppContent authUser={this.state.authUser} />
     return(
       <div>
         {isLoad}
@@ -37,9 +36,13 @@ class App extends Component {
 }
 
 function AppContent(props){
-  const content = (props.authUser !== null) ? <Booking name={props.authUser.displayName} authUser={props.authUser} /> : <SignedOutData />
+  const content = (props.authUser !== null) ? <Booking authUser={props.authUser} /> : <SignedOutData />
 
   return content;
+}
+
+function Spinny(props){
+  return <h1>SPINNING WHEEL OF WAITING</h1>
 }
 
 // components with data

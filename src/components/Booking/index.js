@@ -5,7 +5,7 @@ class Booking extends Component{
 
   render() {
     return(
-      <p>{this.props.name}, U R about to book the TOM taxi</p>
+      <p>{this.props.authUser.displayName}, U R about to book the TOM taxi</p>
     )
   }
 }
