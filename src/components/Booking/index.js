@@ -5,12 +5,41 @@ import CreateRide from '../CreateRide';
 import JoinRide from '../JoinRide';
 
 class Booking extends Component{
+  constructor(props) {
+    super(props);
+    this.state = {
+      car : '',
+    }
+  }
+  componentDidMount(){
+    // test if current authUser has a car a
+    const db = this.props.firebase.db
+    const userRef = db.collection('users').doc(this.props.authUser.uid);
+    userRef.get()
+    .then(query => {
+      if (query.data().car !== undefined) {
+        query.data().car.get()
+        .then(carQuery => {
+          this.setState({car : carQuery.data()})
+        })
+        .catch(error => {
+          console.log('Issue getting car name: ' + error)
+        })
+      } else {
+        this.setState({care : ''})
+      }
+    })
+    .catch(error => {
+      console.log('Issue getting user data: ' + error)
+    })
+  }
 
   render() {
+    const showCreateRide = (this.state.car) ? <CreateRide car={this.state.car}/> : ''
     return(
       <article className="booking">
         <p>Hello {this.props.authUser.displayName}</p>
-        <CreateRide />
+        {showCreateRide}
         <JoinRide isDriver={true} toLab={true} />
         <JoinRide isDriver={false} toLab={false} />
       </article>

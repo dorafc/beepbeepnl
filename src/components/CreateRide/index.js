@@ -24,13 +24,20 @@ class CreateRide extends Component{
 
   onSubmit(event){
     event.preventDefault();
+
+    // write data
+    // const db = this.props.firebase.db;
+    // db.collection('rides').doc
+
+    // reset component state
     this.setState({ ...initialState });
   }
 
   render() {
     return(
       <div className="setRide">
-        <h3>Set a Ride in carName</h3>
+        <h3>Create a ride in {this.props.car.name}</h3>
+        <p>Capacity: {this.props.car.capacity} nerds</p>
         <form onSubmit={this.onSubmit}>
           <p>To Lab? Y/N</p>
           <div className="toLab">
