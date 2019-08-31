@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import { withFirebase } from '../Firebase';
 
+import CreateRide from '../CreateRide';
+
 class Booking extends Component{
 
   render() {
     return(
       <article className="booking">
-        <p>{this.props.authUser.displayName}, U R about to book the TOM taxi</p>
+        <p>Hello {this.props.authUser.displayName}</p>
+        <CreateRide />
       </article>
     )
   }
