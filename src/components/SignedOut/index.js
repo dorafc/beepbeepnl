@@ -7,12 +7,12 @@ class SignedOut extends Component{
 
   render() {
     return(
-      <div className="signIn">
-        <h1>Help! I need to get to/from lab</h1>
+      <article className="signIn">
+        <h2>Help! I need to get to/from lab</h2>
         <button onClick={this.onClick}>
           Sign In
         </button>
-      </div>
+      </article>
     )
   }
 }

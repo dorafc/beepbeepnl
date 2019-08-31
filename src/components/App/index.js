@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import SignedOut from '../SignedOut';
 import Booking from '../Booking';
+import Header from '../Header';
 import { withFirebase } from '../Firebase';
 
 class App extends Component {
@@ -29,6 +30,7 @@ class App extends Component {
     const isLoad = (this.state.loading) ?  <Spinny /> : <AppContent authUser={this.state.authUser} />
     return(
       <div>
+        <Header authUser={this.state.authUser} />
         {isLoad}
       </div>
     )
