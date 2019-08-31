@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { withFirebase } from '../Firebase';
 
 const initialState = {
-  toLab : false,
+  labDirection : 'true',
   rideId : ''
 }
 
@@ -38,13 +38,31 @@ class CreateRide extends Component{
       <div className="setRide">
         <h3>Create a ride in {this.props.car.name}</h3>
         <p>Capacity: {this.props.car.capacity} nerds</p>
+
         <form onSubmit={this.onSubmit}>
-          <p>To Lab? Y/N</p>
-          <div className="toLab">
-            <input type="checkbox" id="toLab" name="toLab" checked={this.state.toLab} onChange={this.onChange} />
-            <label htmlFor="toLab" />
-            <div className="toggle"></div>
+          {/* LAB DIRECTION - convert strings to boolean at db write */}
+          <div className="labDirection">
+            <input  type="radio" 
+                    id="toLab" 
+                    value='true'
+                    name="labDirection" 
+                    checked={this.state.labDirection === 'true'} 
+                    onChange={this.onChange} 
+            />
+            <label htmlFor="toLab"> Towards Lab </label>
           </div>
+          <div className="labDirection">
+            <input  type="radio" 
+                    id="fromLab" 
+                    value='false'
+                    name="labDirection" 
+                    checked={this.state.labDirection === 'false'} 
+                    onChange={this.onChange} 
+            />
+            <label htmlFor="fromLab"> From Lab </label>
+          </div><br />
+
+          {/* WHICH TRAIN */}
           <div className="ride">
             <label htmlFor="rideID">Which train: </label>
             <input type="text" id="rideId" name="rideId" onChange={this.onChange} value={this.state.rideId} />
