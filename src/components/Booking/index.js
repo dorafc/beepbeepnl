@@ -74,6 +74,7 @@ class Booking extends Component{
         <JoinRide 
           isDriver = {data.driver.path === 'users/'+this.props.authUser.uid} 
           toLab = {(data.toLab === 'true')} 
+          driver = {data.driver}
           label = {data.label}
           capacity = {data.capacity}
           key = {'ride'+i}

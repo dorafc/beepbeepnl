@@ -8,7 +8,8 @@ class JoinRide extends Component{
 		super(props);
     this.state = {
       buttonText :  "",
-      availableSeats : 0
+      availableSeats : 0,
+      driver : ''
     };
 
     this.onChange = this.onChange.bind(this)
@@ -17,6 +18,15 @@ class JoinRide extends Component{
   }
 
   componentDidMount(){
+    // get driver
+    this.props.driver.get()
+    .then( driver => {
+      this.setState({
+        driver : driver.data().name
+      })
+    })
+    .catch (error => "error getting driver: "+error)
+
     // update button text depending on if the user is driving
     this.setState({
       // buttonText : (this.props.isDriver) ? 'Update' : 'Join Ride'
@@ -68,11 +78,14 @@ class JoinRide extends Component{
     const rideLabel = (this.props.isDriver) ? 'Add passengers to ' + this.props.label : 'Join ' + this.props.label
     // text for ride direction
     const directionText = (this.props.toLab) ? 'Ronk 🚆→⚛️ Lab' : ' Lab ⚛️→🚆Ronk'
+    // show driver
+    const driver = (this.state.driver) ? <p>Driver: {this.state.driver}</p> : ''
     
     return(
       <div className="joinRide">
         <h3>{rideLabel} ({directionText})</h3>
         <p>Capacity: {this.props.capacity}</p>
+        {driver}
         <Passengers 
           ride={this.props.ride} 
           updateCapacity={this.updateCapacity}
