@@ -9,9 +9,18 @@ class Booking extends Component{
     super(props);
     this.state = {
       car : '',
-      driver : ''
+      driver : '',
+      alert : ''
     }
+
+    this.updateAlert = this.updateAlert.bind(this)
   }
+
+  // update alert message in state
+  updateAlert(alert){
+    this.setState({ alert : alert})
+  }
+
   componentDidMount(){
     // test if current authUser has a car a
     const db = this.props.firebase.db
@@ -35,11 +44,21 @@ class Booking extends Component{
     })
   }
 
+  componentDidUpdate(){
+    // hide any visible alerts
+    if (this.state.alert !== ''){
+      setTimeout(() => {
+        this.setState({ alert : ''})
+      }, 3000)
+    }
+  }
+
   render() {
-    const showCreateRide = (this.state.car) ? <CreateRide car={this.state.car} driver={this.state.driver} /> : ''
+    const showCreateRide = (this.state.car) ? <CreateRide car={this.state.car} driver={this.state.driver} alert={this.updateAlert} /> : ''
     return(
       <article className="booking">
         <p>Hello {this.props.authUser.displayName}</p>
+        <h5>{this.state.alert}</h5>
         <hr />
         {showCreateRide}
         <JoinRide isDriver={true} toLab={true} />

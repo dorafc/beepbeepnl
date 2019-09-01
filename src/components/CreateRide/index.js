@@ -37,6 +37,9 @@ class CreateRide extends Component{
       timestamp : this.props.firebase.getTimestamp()
     })
 
+    // show alert about update
+    this.props.alert(this.state.rideId + ' added and awaiting passengers')
+
     // reset component state
     this.setState({ ...initialState });
   }
