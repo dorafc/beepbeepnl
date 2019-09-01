@@ -17,7 +17,7 @@ exports.init_user = functions
       .collection('users')
       .doc(uid)
       .set({ 'name': displayName })
-
+    return writeResult;
   });
 
 exports.removeUserFromDatabase = functions
