@@ -19,7 +19,8 @@ class JoinRide extends Component{
   componentDidMount(){
     // update button text depending on if the user is driving
     this.setState({
-      buttonText : (this.props.isDriver) ? 'Update' : 'Join Ride'
+      // buttonText : (this.props.isDriver) ? 'Update' : 'Join Ride'
+      buttonText : 'Join Ride'
     })
   }
 
@@ -66,11 +67,11 @@ class JoinRide extends Component{
     // text for Ride Type
     const rideLabel = (this.props.isDriver) ? 'Add passengers to ' + this.props.label : 'Join ' + this.props.label
     // text for ride direction
-    const rideDirection = (this.props.toLab) ? ' to lab.' : ' from lab.'
+    const directionText = (this.props.toLab) ? 'Ronk 🚆→⚛️ Lab' : ' Lab ⚛️→🚆Ronk'
     
     return(
       <div className="joinRide">
-        <h3>{rideLabel+rideDirection}</h3>
+        <h3>{rideLabel} ({directionText})</h3>
         <p>Capacity: {this.props.capacity}</p>
         <Passengers 
           ride={this.props.ride} 
