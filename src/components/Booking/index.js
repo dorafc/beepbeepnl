@@ -10,7 +10,8 @@ class Booking extends Component{
     this.state = {
       car : '',
       driver : '',
-      alert : ''
+      alert : '',
+      rides : []
     }
 
     this.updateAlert = this.updateAlert.bind(this)
@@ -22,8 +23,10 @@ class Booking extends Component{
   }
 
   componentDidMount(){
-    // test if current authUser has a car a
+    // get data from the db
     const db = this.props.firebase.db
+
+    // test if current authUser has a car a
     const userRef = db.collection('users').doc(this.props.authUser.uid);
     userRef.get()
     .then(query => {
@@ -42,6 +45,12 @@ class Booking extends Component{
     .catch(error => {
       console.log('Issue getting user data: ' + error)
     })
+
+    // get list of rides currently in the app
+    const rideRef = db.collection('rides')
+    rideRef.onSnapshot(query => {
+      this.setState({ rides : query.docs })
+    })
   }
 
   componentDidUpdate(){
@@ -51,18 +60,36 @@ class Booking extends Component{
         this.setState({ alert : ''})
       }, 3000)
     }
+
+    // update rides
   }
 
   render() {
-    const showCreateRide = (this.state.car) ? <CreateRide car={this.state.car} driver={this.state.driver} alert={this.updateAlert} /> : ''
+    const showCreateRide = (this.state.car) ? <CreateRide car={this.state.car} driver={this.state.driver} alert={this.updateAlert} /> : '';
+    const showAlert = (this.state.alert !== '') ? <h5>{this.state.alert}</h5> : '';
+    const rideSignUp = this.state.rides.slice().map((ride, i) => {
+      const data = ride.data()
+      return (
+        <JoinRide 
+          isDriver = {data.driver.path === 'users/'+this.props.authUser.uid} 
+          toLab = {(data.toLab === 'true')} 
+          label = {data.label}
+          capacity = {data.capacity}
+          key = {'ride'+i}
+          ride = {ride.ref}
+        />
+      )
+    })
+
     return(
       <article className="booking">
         <p>Hello {this.props.authUser.displayName}</p>
-        <h5>{this.state.alert}</h5>
+        {showAlert}
         <hr />
         {showCreateRide}
-        <JoinRide isDriver={true} toLab={true} />
-        <JoinRide isDriver={false} toLab={false} />
+        {/* <JoinRide isDriver={true} toLab={true} />
+        <JoinRide isDriver={false} toLab={false} /> */}
+        {rideSignUp}
       </article>
     )
   }

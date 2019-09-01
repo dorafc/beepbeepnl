@@ -35,7 +35,7 @@ class JoinRide extends Component{
 
   render() {
     // text for Ride Type
-    const rideLabel = (this.isDriver) ? 'Add Riders to RideName' : 'Join RideName'
+    const rideLabel = (this.isDriver) ? 'Add passengers to ' + this.props.label : 'Join ' + this.props.label
     const rideDirection = (this.toLab) ? ' to lab.' : ' from lab.'
     const buttonText = (this.isDriver) ? 'Update Rider' : 'Join Ride'
 
