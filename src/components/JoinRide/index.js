@@ -3,17 +3,24 @@ import { withFirebase } from '../Firebase';
 
 import Passengers from './Passengers';
 
-const initialState = {
-  passengers : ''
-}
-
 class JoinRide extends Component{
   constructor(props) {
 		super(props);
-    this.state = { ...initialState };
+    this.state = {
+      buttonText :  "",
+      availableSeats : 0
+    };
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.updateCapacity = this.updateCapacity.bind(this)
+  }
+
+  componentDidMount(){
+    // update button text depending on if the user is driving
+    this.setState({
+      buttonText : (this.props.isDriver) ? 'Update' : 'Join Ride'
+    })
   }
 
   onChange(event){
@@ -29,14 +36,10 @@ class JoinRide extends Component{
 
     // add rider to ride in DB
     const rideRef = this.props.ride
-    let numCurrentPassengers;
     
     rideRef.collection('passengers').get()
-    .then(passengers => {
-      numCurrentPassengers = passengers.docs.length
-    })
     .then(() => {
-      if (numCurrentPassengers < this.props.capacity || !numCurrentPassengers){
+      if (this.state.availableSeats > 0){
         rideRef.collection('passengers').doc().set({ 
           passenger : this.props.user.displayName,
           user : 'users/' + this.props.user.uid
@@ -50,25 +53,32 @@ class JoinRide extends Component{
       }
     })
     .catch(error => 'Issue getting current capacity: ' + error)
-     
-    // clear state
-    this.setState({ ...initialState });
+  }
+
+  updateCapacity(availableSeats){
+    this.setState({
+      availableSeats : availableSeats
+    })
   }
 
   render() {
+    const showSubmit = (this.state.availableSeats) ? <button className="submitRide" type="submit">{this.state.buttonText}</button> : ''
     // text for Ride Type
     const rideLabel = (this.props.isDriver) ? 'Add passengers to ' + this.props.label : 'Join ' + this.props.label
     // text for ride direction
     const rideDirection = (this.props.toLab) ? ' to lab.' : ' from lab.'
-    // update button text depending on if the user is driving
-    const buttonText = (this.props.isDriver) ? 'Update' : 'Join Ride'
-
+    
     return(
       <div className="joinRide">
         <h3>{rideLabel+rideDirection}</h3>
-        <Passengers ride={this.props.ride} />
+        <p>Capacity: {this.props.capacity}</p>
+        <Passengers 
+          ride={this.props.ride} 
+          updateCapacity={this.updateCapacity}
+          capacity={this.props.capacity}
+        />
         <form onSubmit={this.onSubmit}>
-          <button className="submitRide" type="submit">{buttonText}</button>
+          {showSubmit}
         </form>
         <hr />
       </div>

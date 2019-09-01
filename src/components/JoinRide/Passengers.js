@@ -20,8 +20,11 @@ class Passengers extends Component{
           passengers.push(passenger.data().passenger)
         })
         this.setState({ passengers : passengers})
+        this.props.updateCapacity(this.props.capacity - this.state.passengers.length)
       })
     }
+
+    
   }
 
   render(){
