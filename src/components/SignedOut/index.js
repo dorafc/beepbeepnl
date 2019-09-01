@@ -8,7 +8,7 @@ class SignedOut extends Component{
   render() {
     return(
       <article className="signIn">
-        <h2>A passion for (not) abandoning people at Ronkonkoma Train Station</h2>
+        <h2>A passion for (not) abandoning people at the Ronkonkoma Train Station</h2>
         <button onClick={this.onClick}>
           Sign In
         </button>

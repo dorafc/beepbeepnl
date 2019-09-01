@@ -40,6 +40,7 @@ class Booking extends Component{
     return(
       <article className="booking">
         <p>Hello {this.props.authUser.displayName}</p>
+        <hr />
         {showCreateRide}
         <JoinRide isDriver={true} toLab={true} />
         <JoinRide isDriver={false} toLab={false} />
