@@ -29,7 +29,6 @@ class JoinRide extends Component{
     // add rider to ride in DB
     const rideRef = this.props.ride
     let numCurrentPassengers;
-    let alert = "beep";
     
     rideRef.collection('passengers').get()
     .then(passengers => {
@@ -41,11 +40,11 @@ class JoinRide extends Component{
           passenger : this.props.user.displayName 
         })
         .then(()=> {
-          alert = "You've been added to " + this.props.rideId
+          this.props.updateAlert("You've been added to " + this.props.label)
         })
         .catch(error => 'Issue adding passenger: ' + error)
       } else {
-        alert = "There are too many people already on this ride"
+        this.props.updateAlert("There are too many people already on this ride")
       }
     })
     .catch(error => 'Issue getting current capacity: ' + error)

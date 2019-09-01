@@ -78,6 +78,7 @@ class Booking extends Component{
           key = {'ride'+i}
           ride = {ride.ref}
           user = {this.props.authUser}
+          updateAlert = {this.updateAlert}
         />
       )
     })
