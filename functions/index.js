@@ -24,10 +24,15 @@ exports.removeUserFromDatabase = functions
   .region('us-east1')
   .auth
   .user()
-  .onDelete(function (user, context) {
+  .onDelete(async (user, context) => {
     // Get the uid of the deleted user.
     var uid = user.uid;
 
     // Remove the user from your Realtime Database's /users node.
-    return admin.database().ref("/users/" + uid).remove();
+    const result = await admin
+      .firestore
+      .collection('users')
+      .doc(uid)
+      .delete()
+    return result
   });
