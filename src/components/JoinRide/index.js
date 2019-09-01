@@ -11,12 +11,6 @@ class JoinRide extends Component{
 		super(props);
     this.state = { ...initialState };
 
-    // replace with data stuff
-    this.isDriver = this.props.isDriver
-    this.toLab = this.props.toLab
-
-    // end replace with data stuff
-
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -35,9 +29,9 @@ class JoinRide extends Component{
 
   render() {
     // text for Ride Type
-    const rideLabel = (this.isDriver) ? 'Add passengers to ' + this.props.label : 'Join ' + this.props.label
-    const rideDirection = (this.toLab) ? ' to lab.' : ' from lab.'
-    const buttonText = (this.isDriver) ? 'Update Rider' : 'Join Ride'
+    const rideLabel = (this.props.isDriver) ? 'Add passengers to ' + this.props.label : 'Join ' + this.props.label
+    const rideDirection = (this.props.toLab) ? ' to lab.' : ' from lab.'
+    const buttonText = (this.props.isDriver) ? 'Update' : 'Join Ride'
 
     return(
       <div className="joinRide">
