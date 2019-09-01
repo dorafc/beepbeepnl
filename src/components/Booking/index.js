@@ -26,7 +26,7 @@ class Booking extends Component{
     // get data from the db
     const db = this.props.firebase.db
 
-    // test if current authUser has a car a
+    // test if current authUser has a car
     const userRef = db.collection('users').doc(this.props.authUser.uid);
     userRef.get()
     .then(query => {
@@ -68,6 +68,7 @@ class Booking extends Component{
     const showCreateRide = (this.state.car) ? <CreateRide car={this.state.car} driver={this.state.driver} alert={this.updateAlert} /> : '';
     const showAlert = (this.state.alert !== '') ? <h5>{this.state.alert}</h5> : '';
     const rideSignUp = this.state.rides.slice().map((ride, i) => {
+      //  get data
       const data = ride.data()
       return (
         <JoinRide 
