@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { withFirebase } from '../Firebase';
 
+import Passengers from './Passengers';
+
 const initialState = {
-  toLab : false,
-  rideId : ''
+  passengers : ''
 }
 
 class JoinRide extends Component{
@@ -57,14 +58,16 @@ class JoinRide extends Component{
   render() {
     // text for Ride Type
     const rideLabel = (this.props.isDriver) ? 'Add passengers to ' + this.props.label : 'Join ' + this.props.label
+    // text for ride direction
     const rideDirection = (this.props.toLab) ? ' to lab.' : ' from lab.'
+    // update button text depending on if the user is driving
     const buttonText = (this.props.isDriver) ? 'Update' : 'Join Ride'
 
     return(
       <div className="joinRide">
         <h3>{rideLabel+rideDirection}</h3>
+        <Passengers ride={this.props.ride} />
         <form onSubmit={this.onSubmit}>
-          
           <button className="submitRide" type="submit">{buttonText}</button>
         </form>
         <hr />
