@@ -34,5 +34,10 @@ class Firebase {
   doSignInWithRedirect = () => {
     this.auth.signInWithRedirect(this.provider)
   }
+
+  // *** Helper Classes ***
+  getTimestamp = () => {
+    return app.firestore.Timestamp.fromDate(new Date())
+  }
 }
 export default Firebase;
