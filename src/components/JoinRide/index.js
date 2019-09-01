@@ -37,7 +37,8 @@ class JoinRide extends Component{
     .then(() => {
       if (numCurrentPassengers < this.props.capacity || !numCurrentPassengers){
         rideRef.collection('passengers').doc().set({ 
-          passenger : this.props.user.displayName 
+          passenger : this.props.user.displayName,
+          user : 'users/' + this.props.user.uid
         })
         .then(()=> {
           this.props.updateAlert("You've been added to " + this.props.label)
