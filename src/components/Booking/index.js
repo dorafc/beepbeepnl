@@ -9,6 +9,7 @@ class Booking extends Component{
     super(props);
     this.state = {
       car : '',
+      driver : ''
     }
   }
   componentDidMount(){
@@ -20,7 +21,7 @@ class Booking extends Component{
       if (query.data().car !== undefined) {
         query.data().car.get()
         .then(carQuery => {
-          this.setState({car : carQuery.data()})
+          this.setState({car : carQuery.data(), driver : userRef})
         })
         .catch(error => {
           console.log('Issue getting car name: ' + error)
@@ -35,7 +36,7 @@ class Booking extends Component{
   }
 
   render() {
-    const showCreateRide = (this.state.car) ? <CreateRide car={this.state.car}/> : ''
+    const showCreateRide = (this.state.car) ? <CreateRide car={this.state.car} driver={this.state.driver} /> : ''
     return(
       <article className="booking">
         <p>Hello {this.props.authUser.displayName}</p>

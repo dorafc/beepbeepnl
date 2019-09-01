@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { withFirebase } from '../Firebase';
 
 const initialState = {
-  labDirection : 'true',
+  direction : 'true',
   rideId : ''
 }
 
@@ -26,8 +26,16 @@ class CreateRide extends Component{
     event.preventDefault();
 
     // write data
-    // const db = this.props.firebase.db;
-    // db.collection('rides').doc
+    const ridesRef = this.props.firebase.db.collection('rides');
+
+    ridesRef.doc().set({
+      carName : this.props.car.name,
+      capacity : this.props.car.capacity,
+      driver : this.props.driver, 
+      label : this.state.rideId,
+      toLab : this.state.direction,
+      timestamp : this.props.firebase.getTimestamp()
+    })
 
     // reset component state
     this.setState({ ...initialState });
@@ -41,22 +49,22 @@ class CreateRide extends Component{
 
         <form onSubmit={this.onSubmit}>
           {/* LAB DIRECTION - convert strings to boolean at db write */}
-          <div className="labDirection">
+          <div className="direction">
             <input  type="radio" 
                     id="toLab" 
                     value='true'
-                    name="labDirection" 
-                    checked={this.state.labDirection === 'true'} 
+                    name="direction" 
+                    checked={this.state.direction === 'true'} 
                     onChange={this.onChange} 
             />
             <label htmlFor="toLab"> Towards Lab </label>
           </div>
-          <div className="labDirection">
+          <div className="direction">
             <input  type="radio" 
                     id="fromLab" 
                     value='false'
-                    name="labDirection" 
-                    checked={this.state.labDirection === 'false'} 
+                    name="direction" 
+                    checked={this.state.direction === 'false'} 
                     onChange={this.onChange} 
             />
             <label htmlFor="fromLab"> From Lab </label>
