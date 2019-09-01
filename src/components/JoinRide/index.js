@@ -23,7 +23,34 @@ class JoinRide extends Component{
   }
 
   onSubmit(event){
+    // prevent default button behaviour
     event.preventDefault();
+
+    // add rider to ride in DB
+    const rideRef = this.props.ride
+    let numCurrentPassengers;
+    let alert = "beep";
+    
+    rideRef.collection('passengers').get()
+    .then(passengers => {
+      numCurrentPassengers = passengers.docs.length
+    })
+    .then(() => {
+      if (numCurrentPassengers < this.props.capacity || !numCurrentPassengers){
+        rideRef.collection('passengers').doc().set({ 
+          passenger : this.props.user.displayName 
+        })
+        .then(()=> {
+          alert = "You've been added to " + this.props.rideId
+        })
+        .catch(error => 'Issue adding passenger: ' + error)
+      } else {
+        alert = "There are too many people already on this ride"
+      }
+    })
+    .catch(error => 'Issue getting current capacity: ' + error)
+     
+    // clear state
     this.setState({ ...initialState });
   }
 
