@@ -49,16 +49,17 @@ exports.clearOldRides = functions
         new_ride.get('driver')
       ).get()
       .then((qs) => {
-        qs.forEach(async (doc) => {
+        return qs.forEach(async (doc) => {
           const id = doc.id;
           if (id === new_ride.id) {
-            return new_ride
+            return
           }
-          else if (doc.get('toLab') == new_ride.get('toLab')) {
+          else if (doc.get('toLab') === new_ride.get('toLab')) {
             const old_data = doc.data()
             await admin.firestore.collection('rides').doc(id).delete()
-            return old_data
+            return
           }
+          return
         })
       })
   }
