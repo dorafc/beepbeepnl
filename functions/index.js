@@ -55,7 +55,6 @@ exports.clearOldRides = functions
             return
           }
           else if (doc.get('toLab') === new_ride.get('toLab')) {
-            const old_data = doc.data()
             await admin.firestore.collection('rides').doc(id).delete()
             return
           }
