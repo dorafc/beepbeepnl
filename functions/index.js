@@ -42,7 +42,7 @@ exports.clearOldRides = functions
   .firestore
   .document('rides/{ride}').onCreate(async (new_ride, context) => {
     await admin
-      .firestore
+      .firestore()
       .collection('rides')
       .where('driver',
         '==',
@@ -55,7 +55,7 @@ exports.clearOldRides = functions
             return
           }
           else if (doc.get('toLab') === new_ride.get('toLab')) {
-            await admin.firestore.collection('rides').doc(id).delete()
+            await admin.firestore().collection('rides').doc(id).delete()
             return
           }
           return
